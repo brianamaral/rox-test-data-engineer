@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Connection
 from pandas import DataFrame
+from os import environ
 
 class DbHandler:
     def __init__(self):
@@ -8,7 +9,12 @@ class DbHandler:
     
     def _make_connection(self) -> Connection:
         
-        engine = create_engine("postgresql+psycopg2://postgres:rox-partner@database-1.clc0z9jsa3ep.us-east-1.rds.amazonaws.com/postgres")
+        engine = create_engine("postgresql+psycopg2://{}:{}@{}/{}".format(
+            environ['POSTGRES_USER'],
+            environ['POSTGRES_PASSWORD'],
+            environ['POSTGRES_ADDRES'],
+            environ['POSTGRES_DATABASE']
+            ))
     
         return engine.connect()
     
