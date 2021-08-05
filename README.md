@@ -83,5 +83,8 @@ docker-compose up
 
 * E por fim, você pode executar a dag manualmente.
 
-
+## Relatório
+![plot](./src/relatorio.png)
+Relatório criado utilizando a ferramente [Google Data Studio](https://datastudio.google.com/u/0/)
+Link para o relatório: https://datastudio.google.com/reporting/35df4613-ca74-42b1-83a4-c96126941529
 
