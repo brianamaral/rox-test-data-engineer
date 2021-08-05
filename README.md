@@ -118,14 +118,14 @@ Considerei utilizar o RDS para dar deploy de um banco Postgresql, pois deixo o e
 * Para a implementação, inicialmente enviei os csv's para um bucket do s3 com a seguinte estrutura de diretórios:
 ```sh
 |--person
-  |--Person.Person.csv
+	|--Person.Person.csv
 |--production
-  |--Production.Product.csv
+	|--Production.Product.csv
 |--sales
-  |--Sales.Customer.csv
-  |--Sales.SalesOrderDetail.csv
-  |--Sales.SalesOrderHeader.csv
-  |--Sales.SpecialOfferProduct.csv
+	|--Sales.Customer.csv
+	|--Sales.SalesOrderDetail.csv
+	|--Sales.SalesOrderHeader.csv
+	|--Sales.SpecialOfferProduct.csv
 ```
 
 * Em seguida, subi uma instância do Postgres pelo RDS, e abri o acesso público do mesmo.
