@@ -12,6 +12,75 @@ Minha solução para o teste técnico para vaga de Engenheiro de Dados Jr na Rox
 * [AWS s3](https://aws.amazon.com/pt/s3/?nc2=type_a)
 * [AWS RDS](https://aws.amazon.com/pt/rds/?nc2=type_a)
 
+## Análise de Dados
+1. Escreva uma query que retorna a quantidade de linhas na tabela Sales.SalesOrderDetail pelo campo SalesOrderID, desde que tenham pelo menos três linhas de detalhes.
+```sql
+WITH cte_sales
+AS (
+	SELECT sod."SalesOrderID"
+		,count(sod."SalesOrderDetailID") AS qtd_linhas
+	FROM "SalesOrderDetail" sod
+	GROUP BY sod."SalesOrderID"
+	)
+	
+SELECT *
+FROM cte_sales
+WHERE qtd_linhas >= 3;
+```
+2. Escreva uma query que ligue as tabelas Sales.SalesOrderDetail, Sales.SpecialOfferProduct e Production.Product e retorne os 3 produtos (Name) mais vendidos (pela soma de OrderQty), agrupados pelo número de dias para manufatura (DaysToManufacture).
+```sql
+SELECT p."Name"
+	,p."DaysToManufacture"
+	,sum(sod."OrderQty") AS qtd
+FROM "SalesOrderDetail" sod
+LEFT JOIN "SpecialOfferProduct" sop ON sop."SpecialOfferID" = sod."SpecialOfferID"
+LEFT JOIN "Product" p ON p."ProductID" = sop."ProductID"
+GROUP BY p."Name"
+	,p."DaysToManufacture"
+ORDER BY 3 DESC limit 3;
+```
+3. Escreva uma query ligando as tabelas Person.Person, Sales.Customer e Sales.SalesOrderHeader de forma a obter uma lista de nomes de clientes e uma contagem de pedidos efetuados.
+
+```sql
+SELECT CONCAT (
+		p."FirstName"
+		,' '
+		,p."MiddleName"
+		,' '
+		,p."LastName"
+		) AS name
+	,count(soh."SalesOrderID") AS qtd_compras
+FROM "Person" p
+JOIN "Customer" c ON c."PersonID" = p."BusinessEntityID"
+JOIN "SalesOrderHeader" soh ON soh."CustomerID" = c."CustomerID"
+GROUP BY 1
+ORDER BY 2 DESC;
+```
+4.	Escreva uma query usando as tabelas Sales.SalesOrderHeader, Sales.SalesOrderDetail e Production.Product, de forma a obter a soma total de produtos (OrderQty) por ProductID e OrderDate.
+```sql
+select
+sod."ProductID"
+,soh."OrderDate"
+,sum(sod."OrderQty") as qtd
+from "SalesOrderHeader" soh 
+join "SalesOrderDetail" sod on soh."SalesOrderID" = sod."SalesOrderID"
+group by sod."ProductID",
+		 soh."OrderDate"
+order by 3 desc;
+```
+5.	Escreva uma query mostrando os campos SalesOrderID, OrderDate e TotalDue da tabela Sales.SalesOrderHeader. Obtenha apenas as linhas onde a ordem tenha sido feita durante o mês de setembro/2011 e o total devido esteja acima de 1.000. Ordene pelo total devido decrescente.
+```sql
+SELECT soh."SalesOrderID"
+	,soh."OrderDate"
+	,replace(soh."TotalDue", ',', '.')::FLOAT AS qtd
+FROM "SalesOrderHeader" soh
+WHERE replace(soh."TotalDue", ',', '.')::FLOAT > 1000
+	AND (
+		extract(year FROM soh."OrderDate"::DATE) = 2011
+		AND extract(month FROM soh."OrderDate"::DATE) = 9
+		)
+ORDER BY replace(soh."TotalDue", ',', '.')::FLOAT DESC;
+```
 ## Modelagem conceitual dos dados
 ![plot](./src/diagrama.png)
 
