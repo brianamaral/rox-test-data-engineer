@@ -12,6 +12,26 @@ Minha solução para o teste técnico para vaga de Engenheiro de Dados Jr na Rox
 * [AWS s3](https://aws.amazon.com/pt/s3/?nc2=type_a)
 * [AWS RDS](https://aws.amazon.com/pt/rds/?nc2=type_a)
 
+### Estrutura de Diretórios
+```sh
+|--docker-compose #Pasta com o compose file e dags criadas
+	|--dags
+		|--sql_files
+			|--delete_tables.sql
+		|--lamba.py
+	|--docker-compose.yaml
+|--lambda-function #Código da lambda function
+	|--data_getter.py
+	|--handler.py
+	|--lambda_function.py
+|--sql #arquivos .sql com as queries para as perguntas de analise de dados
+	|--pergunta_1.sql
+	|--pergunta_2.sql
+	|--pergunta_3.sql
+	|--pergunta_4.sql
+	|--pergunta_5.sql
+```
+
 ## Análise de Dados
 1. Escreva uma query que retorna a quantidade de linhas na tabela Sales.SalesOrderDetail pelo campo SalesOrderID, desde que tenham pelo menos três linhas de detalhes.
 ```sql
@@ -151,9 +171,4 @@ docker-compose up
 * É necessário adicionar duas conexões no airflow, para poder executar as dags, uma do tipo Amazon Web Services e outra do tipo Postgres (dados de conexão anexados).
 
 * E por fim, você pode executar a dag manualmente.
-
-## Relatório
-![plot](./src/relatorio.png)
-Relatório criado utilizando a ferramente [Google Data Studio](https://datastudio.google.com/u/0/)
-Link para o relatório: https://datastudio.google.com/reporting/35df4613-ca74-42b1-83a4-c96126941529
 
