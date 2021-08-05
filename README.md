@@ -14,3 +14,24 @@ Considerei utilizar o RDS para dar deploy de um banco Postgresql, pois deixo o e
 
 ## Implementação
 
+* Para a implementação, inicialmente enviei os csv's para um bucket do s3 com a seguinte estrutura de diretórios:
+```sh
+|--person
+  |--Person.Person.csv
+|--production
+  |--Production.Product.csv
+|--sales
+  |--Sales.Customer.csv
+  |--Sales.SalesOrderDetail.csv
+  |--Sales.SalesOrderHeader.csv
+  |--Sales.SpecialOfferProduct.csv
+```
+
+* Em seguida, subi uma instância do Postgres pelo RDS, e abri o acesso público do mesmo.
+
+* Posteriormente, segui para a construção da lambda function. Inicialmente tive alguns problemas em colocar bibliotecas externas, porém conseguir resolver o problema utilizando o sistema de layers para cada biblioteca utilizada. A abordagem é bem direta, primeiro me conecto com o bucket do s3 pela lib boto3 e baixo os arquivos de dados, em seguida faço a conexão com o postgres pelo SQLAlchemy, após isso utilizo o pandas para carregar os csv's como DataFrames, para simplificar a manipulação, e por fim, dou insert no banco em batch.
+
+* Para a Lambda, reservei 512 mb de ram, a mesma demora 3 minutos para rodar. Com mais tempo eu teria conseguido otimizar, porém tinham outras partes do projeto a serem desenvolvidas.
+* E por fim
+
+
